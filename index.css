@@ -10,6 +10,11 @@ body{
     max-width: 800px;
     align-items: center; 
 }
+.forecast {
+  display:flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
 footer {
   color:rgb(110, 104, 104);
   text-align: center;
@@ -90,4 +95,25 @@ footer {
     font-weight: bolder;  
 }
 
-  
+.forecasticon {
+  font-size: 38px;
+  text-align: center;
+}
+.forecasttemperatures{
+  text-align: center;
+  color:#f65282;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+.forecasttemperature {
+  padding: 0 10px;
+  font-size: 20px;
+}
+  .forecastdate{
+    text-align: center;
+    color:rgb(110, 104, 104);
+    font-size: 25px;
+    line-height: 20px;
+    margin-bottom: 10px;
+  }
