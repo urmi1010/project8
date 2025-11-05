@@ -78,16 +78,19 @@ form.addEventListener("submit", function(event) {
 
 function displayForecast(response){
   console.log(response.data);
-    
+        
     let forecastHtml ="";
+   let daysAdded = [];
+   
 
-    response.data.list.forEach(function(day,index) {
-      if(index<5) {
+    response.data.list.forEach(function(day) {
+      let dayName = formatDay(day.dt);
+      if (!daysAdded.includes(dayName)) {
+    daysAdded.push(dayName);
       let icon = day.weather[0].icon;
       let iconurl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-    
       forecastHtml= forecastHtml +`<div class="forecastday">
-    <div class="forecastdate">${formatDay(day.dt)}</div>
+    <div class="forecastdate">${dayName}</div>
     <div class="forecasticon">
     <img src="${iconurl}"alt = "weather icon">
     </div>
@@ -97,6 +100,7 @@ function displayForecast(response){
         <div class="forecasttemperature">${Math.round(day.main.temp_min)}°</div> 
     </div>
   </div>`;
+  if (daysAdded.length === 4) return;
       }
     });
     let forecastElement = document.querySelector(".forecast");
