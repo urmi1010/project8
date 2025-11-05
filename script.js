@@ -21,7 +21,8 @@ function refreshWeather(response) {
     humi.textContent = `${response.data.main.humidity}%`;
     des.textContent = response.data.weather[0].description;
     windElement.textContent = response.data.wind.speed; 
-}
+    getForecast(response.data.name);
+  }
 
 function formatDate(date){
  let minutes = date.getMinutes();
@@ -43,12 +44,17 @@ if (minutes < 10){
 }
 return `${day} ${hours}:${minutes}`;
 }
-
 function weather(city) {
    let apiKey = "763564287e75c6cc7230d9e4eee699d0";
    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
    axios.get(apiUrl).then(refreshWeather);
-} 
+}
+ 
+function getForecast(city) {
+  let apiKey ="763564287e75c6cc7230d9e4eee699d0";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;    
+  axios(apiUrl).then(displayForecast);                            
+}
 let form = document.querySelector("form");
 let cityInput = document.querySelector("#city");
 let cityName = document.querySelector("h1");
@@ -60,12 +66,13 @@ form.addEventListener("submit", function(event) {
     cityName.textContent= userCity;
     weather(userCity);
   } else {
-    alert("Please enter a city name!");
+        alert("Please enter a city name!");
   }
   cityInput.value = "";
 });
 
-function displayForecast(){
+function displayForecast(response){
+  console.log(response.data);
     let days =["Tue" ,"Wed","Thu","Fri","sat","Sun"];
     let forecastHtml ="";
     days.forEach(function(day) {
@@ -79,6 +86,6 @@ function displayForecast(){
     </div>
   </div>`;
     });
-    let forecastElement = document.querySelector("#forecast")
+    let forecastElement = document.querySelector("#forecast");
 forecastElement.innerHTML=forecastHtml;
 }
