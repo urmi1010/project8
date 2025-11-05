@@ -49,7 +49,12 @@ function weather(city) {
    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
    axios.get(apiUrl).then(refreshWeather);
 }
- 
+ function formatDay(timezone){
+let date = new Date(timezone*1000);
+let days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+return days[date.getDay()];
+ }
 function getForecast(city) {
   let apiKey ="763564287e75c6cc7230d9e4eee699d0";
   let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;    
@@ -73,19 +78,27 @@ form.addEventListener("submit", function(event) {
 
 function displayForecast(response){
   console.log(response.data);
-    let days =["Tue" ,"Wed","Thu","Fri","sat","Sun"];
+    
     let forecastHtml ="";
-    days.forEach(function(day) {
-        forecastHtml= forecastHtml +`<div class="forecastday">
-    <div class="forecastdate">${day}</div>
-    <div class="forecasticon">⛅</div>
+
+    response.data.list.forEach(function(day,index) {
+      if(index<5) {
+      let icon = day.weather[0].icon;
+      let iconurl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+    
+      forecastHtml= forecastHtml +`<div class="forecastday">
+    <div class="forecastdate">${formatDay(day.dt)}</div>
+    <div class="forecasticon">
+    <img src="${iconurl}"alt = "weather icon">
+    </div>
     <div class="forecasttemperatures">
       <div class="forecasttemperature">
-        <strong>15°</strong> </div>
-        <div class="forecasttemperature"> 9°</div> 
+        <strong>${Math.round(day.main.temp_max)}°</strong> </div>
+        <div class="forecasttemperature">${Math.round(day.main.temp_min)}°</div> 
     </div>
   </div>`;
+      }
     });
-    let forecastElement = document.querySelector("#forecast");
-forecastElement.innerHTML=forecastHtml;
+    let forecastElement = document.querySelector(".forecast");
+    forecastElement.innerHTML=forecastHtml;
 }
