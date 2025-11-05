@@ -64,3 +64,21 @@ form.addEventListener("submit", function(event) {
   }
   cityInput.value = "";
 });
+
+function displayForecast(){
+    let days =["Tue" ,"Wed","Thu","Fri","sat","Sun"];
+    let forecastHtml ="";
+    days.forEach(function(day) {
+        forecastHtml= forecastHtml +`<div class="forecastday">
+    <div class="forecastdate">${day}</div>
+    <div class="forecasticon">⛅</div>
+    <div class="forecasttemperatures">
+      <div class="forecasttemperature">
+        <strong>15°</strong> </div>
+        <div class="forecasttemperature"> 9°</div> 
+    </div>
+  </div>`;
+    });
+    let forecastElement = document.querySelector("#forecast")
+forecastElement.innerHTML=forecastHtml;
+}
